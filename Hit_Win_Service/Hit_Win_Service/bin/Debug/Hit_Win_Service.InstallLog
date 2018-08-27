@@ -87,3 +87,16 @@ Affected parameters are:
    logtoconsole = 
    logfile = C:\Users\yasodha\Documents\Visual Studio 2013\Projects\Yasodha Shorten URL documents\MYSQLProjec\Hit_Win_Service\Hit_Win_Service\bin\Debug\Hit_Win_Service.InstallLog
    assemblypath = C:\Users\yasodha\Documents\Visual Studio 2013\Projects\Yasodha Shorten URL documents\MYSQLProjec\Hit_Win_Service\Hit_Win_Service\bin\Debug\Hit_Win_Service.exe
+Installing assembly 'C:\Users\yasodha\Documents\Visual Studio 2013\Projects\Yasodha Shorten URL documents\MYSQLProjec\HitWinService\Hit_Win_Service\Hit_Win_Service\bin\Debug\Hit_Win_Service.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Users\yasodha\Documents\Visual Studio 2013\Projects\Yasodha Shorten URL documents\MYSQLProjec\HitWinService\Hit_Win_Service\Hit_Win_Service\bin\Debug\Hit_Win_Service.InstallLog
+   assemblypath = C:\Users\yasodha\Documents\Visual Studio 2013\Projects\Yasodha Shorten URL documents\MYSQLProjec\HitWinService\Hit_Win_Service\Hit_Win_Service\bin\Debug\Hit_Win_Service.exe
+Installing service Hit_Win_Service...
+Service Hit_Win_Service has been successfully installed.
+Creating EventLog source Hit_Win_Service in log Application...
+Committing assembly 'C:\Users\yasodha\Documents\Visual Studio 2013\Projects\Yasodha Shorten URL documents\MYSQLProjec\HitWinService\Hit_Win_Service\Hit_Win_Service\bin\Debug\Hit_Win_Service.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Users\yasodha\Documents\Visual Studio 2013\Projects\Yasodha Shorten URL documents\MYSQLProjec\HitWinService\Hit_Win_Service\Hit_Win_Service\bin\Debug\Hit_Win_Service.InstallLog
+   assemblypath = C:\Users\yasodha\Documents\Visual Studio 2013\Projects\Yasodha Shorten URL documents\MYSQLProjec\HitWinService\Hit_Win_Service\Hit_Win_Service\bin\Debug\Hit_Win_Service.exe

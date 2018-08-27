@@ -169,7 +169,7 @@ namespace Hit_Win_Service
                         //    //or false depending on information in the response     
                         //}
 
-                        ////end
+                        /////end
 
 
                         using (WebClient wc = new WebClient())
@@ -188,9 +188,10 @@ namespace Hit_Win_Service
                             //var json = JObject.Parse(HtmlResult);
                             //string LastHitID = (string)json["HitId"];
                             hitnotify hitobj = dc.hitnotifies.Where(x => x.FK_Rid == h.FK_Rid && x.FK_HookID == h.FK_HookId).Select(y => y).SingleOrDefault();
+                            campaignhookurl camphookobj = dc.campaignhookurls.Where(x => x.PK_HookID == h.FK_HookId).Select(y => y).SingleOrDefault();
 
                             //if (LastHitID != null)
-                            if (resp == "0")
+                            if (resp != "0")
                             {
                                 // check in shorturl table and update hitnotify table
                                 //int hitid = Convert.ToInt32(LastHitID);
@@ -202,6 +203,9 @@ namespace Hit_Win_Service
                                 hitobj.LastSucAckDate = DateTime.UtcNow;
                                 hitobj.NotifyCount = 0;
                                 dc.SaveChanges();
+                                if (camphookobj.Status == "Pause")
+                                { camphookobj.Status = "Active"; dc.SaveChanges(); }
+
                                 //}
 
                             }
@@ -215,7 +219,6 @@ namespace Hit_Win_Service
                                 }
                                 else
                                 {
-                                    campaignhookurl camphookobj = dc.campaignhookurls.Where(x => x.PK_HookID == h.FK_HookId).Select(y => y).SingleOrDefault();
                                     camphookobj.Status = "Pause";
                                     camphookobj.UpdatedDate = DateTime.UtcNow;
                                     dc.SaveChanges();
