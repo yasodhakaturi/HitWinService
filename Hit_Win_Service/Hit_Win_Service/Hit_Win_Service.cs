@@ -171,13 +171,15 @@ namespace Hit_Win_Service
 
                         /////end
 
-
+                        hitnotify hitobj = dc.hitnotifies.Where(x => x.FK_Rid == h.FK_Rid && x.FK_HookID == h.FK_HookId).Select(y => y).SingleOrDefault();
+                        campaignhookurl camphookobj = dc.campaignhookurls.Where(x => x.PK_HookID == h.FK_HookId).Select(y => y).SingleOrDefault();
+                        string hook_url = camphookobj.HookURL;
                         using (WebClient wc = new WebClient())
                         {
                             var dataString = JsonConvert.SerializeObject(List_analobj);
                             wc.Headers.Add(HttpRequestHeader.ContentType, "application/json");
                             //string resp= wc.UploadString(new Uri("http://localhost:3000/Home/testpost"), "POST", dataString);
-                            string resp = wc.UploadString(new Uri("http://smartsms.smsbm.ae/webhook/hook/pcstat"), "POST", dataString);
+                            string resp = wc.UploadString(new Uri(hook_url), "POST", dataString);
 
 
 
@@ -187,8 +189,6 @@ namespace Hit_Win_Service
                             ////string responseString = Encoding.UTF8.GetString(HtmlResult);
                             //var json = JObject.Parse(HtmlResult);
                             //string LastHitID = (string)json["HitId"];
-                            hitnotify hitobj = dc.hitnotifies.Where(x => x.FK_Rid == h.FK_Rid && x.FK_HookID == h.FK_HookId).Select(y => y).SingleOrDefault();
-                            campaignhookurl camphookobj = dc.campaignhookurls.Where(x => x.PK_HookID == h.FK_HookId).Select(y => y).SingleOrDefault();
 
                             //if (LastHitID != null)
                             if (resp != "0")
