@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\yasodha\Documents\Visual Studio 2013\Projects\Yasodha Shorten URL documents\MYSQLProjec\Hit_Win_Service\Hit_Win_Service\AnalyticsModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\yasodha\Documents\Visual Studio 2013\Projects\Yasodha Shorten URL documents\MYSQLProjec\HitWinService\Hit_Win_Service\Hit_Win_Service\AnalyticsModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

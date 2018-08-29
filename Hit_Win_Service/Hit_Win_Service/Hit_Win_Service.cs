@@ -217,16 +217,26 @@ namespace Hit_Win_Service
 
                         hitnotify hitobj = dc.hitnotifies.Where(x => x.FK_Rid == h.FK_Rid && x.FK_HookID == h.FK_HookId).Select(y => y).SingleOrDefault();
                         campaignhookurl camphookobj = dc.campaignhookurls.Where(x => x.PK_HookID == h.FK_HookId).Select(y => y).SingleOrDefault();
-                        string hook_url = camphookobj.HookURL;
-                        using (WebClient wc = new WebClient())
-                        {
-                            var dataString = JsonConvert.SerializeObject(List_analobj);
-                            wc.Headers.Add(HttpRequestHeader.ContentType, "application/json");
-                            //string resp= wc.UploadString(new Uri("http://localhost:3000/Home/testpost"), "POST", dataString);
-                            string resp = wc.UploadString(new Uri(hook_url), "POST", dataString);
-                            var json = JObject.Parse(resp);
-                            string LastHitID = (string)json["LastHitId"];
+                        string hook_url = camphookobj.HookURL; string LastHitID = "0";
+                       try
+                       {
+                           using (WebClient wc = new WebClient())
+                           {
+                               var dataString = JsonConvert.SerializeObject(List_analobj);
+                               wc.Headers.Add(HttpRequestHeader.ContentType, "application/json");
+                               //string resp= wc.UploadString(new Uri("http://localhost:3000/Home/testpost"), "POST", dataString);
+                               string resp = wc.UploadString(new Uri(hook_url), "POST", dataString);
+                               var json = JObject.Parse(resp);
+                               LastHitID = (string)json["LastHitId"];
 
+                           }
+                       }
+                       catch (Exception ex)
+                       {
+
+                           ErrorLogs.LogErrorData(ex.StackTrace, ex.Message);
+
+                       }
 
                             //CampaignHookurl = "http://localhost:3000/Home/testpost";
                             //wc.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
@@ -271,7 +281,7 @@ namespace Hit_Win_Service
                                 }
                             }
                         }
-                    }
+                    
                 }
             }
 
