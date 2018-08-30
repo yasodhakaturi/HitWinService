@@ -89,8 +89,8 @@ namespace Hit_Win_Service
                                             where ((s.FK_RID == h.FK_Rid))
                                             select new AnalyticsData()
                                             {
-                                                authuser = objcl.Email,
-                                                authpass = objcl.Password,
+                                                //authuser = objcl.Email,
+                                                //authpass = objcl.Password,
                                                 CampaignId = s.FK_RID,
                                                 ClientId = s.FK_ClientID,
                                                 HitId = s.PK_Shorturl,
@@ -129,8 +129,8 @@ namespace Hit_Win_Service
                                             where s.PK_Shorturl > h.LastActId && s.PK_Shorturl <= h.LasthitId
                                             select new AnalyticsData()
                                             {
-                                                authuser = objcl.Email,
-                                                authpass = objcl.Password,
+                                                //authuser = objcl.Email,
+                                                //authpass = objcl.Password,
                                                 CampaignId = s.FK_RID,
                                                 ClientId = s.FK_ClientID,
                                                 HitId = s.PK_Shorturl,
@@ -294,8 +294,8 @@ namespace Hit_Win_Service
         }
         public class AnalyticsData
         {
-            public string authuser { get; set; }
-            public string authpass { get; set; }
+            //public string authuser { get; set; }
+            //public string authpass { get; set; }
             public int? CampaignId { get; set; }
             public int? ClientId { get; set; }
             public int? HitId { get; set; }
