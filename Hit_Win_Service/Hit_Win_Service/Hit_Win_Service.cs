@@ -191,55 +191,55 @@ namespace Hit_Win_Service
 
 
                         ////start
-                        string webAddr = "http://smartsms.smsbm.ae/webhook/hook/pcstat";
-                        string LastHitID = "0";
-                        var httpWebRequest = (HttpWebRequest)WebRequest.Create(webAddr);
-                        httpWebRequest.ContentType = "application/json;";
-                        httpWebRequest.Method = "POST";
+                        //string webAddr = "http://smartsms.smsbm.ae/webhook/hook/pcstat";
+                        //string LastHitID = "0";
+                        //var httpWebRequest = (HttpWebRequest)WebRequest.Create(webAddr);
+                        //httpWebRequest.ContentType = "application/json;";
+                        //httpWebRequest.Method = "POST";
 
-                        using (var streamWriter = new System.IO.StreamWriter(httpWebRequest.GetRequestStream()))
-                        {
-                            string json = JsonConvert.SerializeObject(List_analobj);
+                        //using (var streamWriter = new System.IO.StreamWriter(httpWebRequest.GetRequestStream()))
+                        //{
+                        //    string json = JsonConvert.SerializeObject(List_analobj);
 
-                            streamWriter.Write(json);
-                            streamWriter.Flush();
-                        }
-                        var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-                        using (var streamReader = new System.IO.StreamReader(httpResponse.GetResponseStream()))
-                        {
-                            var responseText = streamReader.ReadToEnd();
-                            //Console.WriteLine(responseText);
-                            var json = JObject.Parse(responseText);
-                            LastHitID = (string)json["LastHitId"];
-                            //Now you have your response.
-                            //or false depending on information in the response     
-                        }
+                        //    streamWriter.Write(json);
+                        //    streamWriter.Flush();
+                        //}
+                        //var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                        //using (var streamReader = new System.IO.StreamReader(httpResponse.GetResponseStream()))
+                        //{
+                        //    var responseText = streamReader.ReadToEnd();
+                        //    //Console.WriteLine(responseText);
+                        //    var json = JObject.Parse(responseText);
+                        //    LastHitID = (string)json["LastHitId"];
+                        //    //Now you have your response.
+                        //    //or false depending on information in the response     
+                        //}
 
                         /////end
 
                         hitnotify hitobj = dc.hitnotifies.Where(x => x.FK_Rid == h.FK_Rid && x.FK_HookID == h.FK_HookId).Select(y => y).SingleOrDefault();
                         campaignhookurl camphookobj = dc.campaignhookurls.Where(x => x.PK_HookID == h.FK_HookId).Select(y => y).SingleOrDefault();
-                        string hook_url = camphookobj.HookURL; 
-                        //string LastHitID = "0";
-                       //try
-                       //{
-                       //    using (WebClient wc = new WebClient())
-                       //    {
-                       //        var dataString = JsonConvert.SerializeObject(List_analobj);
-                       //        wc.Headers.Add(HttpRequestHeader.ContentType, "application/json");
-                       //        //string resp= wc.UploadString(new Uri("http://localhost:3000/Home/testpost"), "POST", dataString);
-                       //        string resp = wc.UploadString(new Uri(hook_url), "POST", dataString);
-                       //        var json = JObject.Parse(resp);
-                       //        LastHitID = (string)json["LastHitId"];
+                        string hook_url = camphookobj.HookURL;
+                        string LastHitID = "0";
+                        try
+                        {
+                            using (WebClient wc = new WebClient())
+                            {
+                                var dataString = JsonConvert.SerializeObject(List_analobj);
+                                wc.Headers.Add(HttpRequestHeader.ContentType, "application/json");
+                                //string resp= wc.UploadString(new Uri("http://localhost:3000/Home/testpost"), "POST", dataString);
+                                string resp = wc.UploadString(new Uri(hook_url), "POST", dataString);
+                                var json = JObject.Parse(resp);
+                                LastHitID = (string)json["LastHitId"];
 
-                       //    }
-                       //}
-                       //catch (Exception ex)
-                       //{
+                            }
+                        }
+                        catch (Exception ex)
+                        {
 
-                       //    ErrorLogs.LogErrorData("from serivce call"+ex.StackTrace, ex.Message);
+                            ErrorLogs.LogErrorData("from serivce call" + ex.StackTrace, ex.Message);
 
-                       //}
+                        }
 
                             //CampaignHookurl = "http://localhost:3000/Home/testpost";
                             //wc.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
