@@ -246,6 +246,8 @@ namespace Hit_Win_Service
                         System.IO.StreamReader reader = new System.IO.StreamReader(receiveStream, Encoding.UTF8);
                         string content = reader.ReadToEnd();
                         ErrorLogs.LogErrorData(content, data);
+                        var json = JObject.Parse(content);
+                        LastHitID = (string)json["LastHitId"];
                         //Response.Write(content);
 
                         //end
