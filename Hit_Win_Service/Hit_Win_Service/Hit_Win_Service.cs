@@ -87,6 +87,7 @@ namespace Hit_Win_Service
                                                           .AsEnumerable()
                                             join u in dc.uiddatas on s.FK_Uid equals u.PK_Uid
                                             where ((s.FK_RID == h.FK_Rid))
+                                            orderby s.PK_Shorturl ascending
                                             select new AnalyticsData()
                                             {
                                                 //authuser = objcl.Email,
@@ -118,7 +119,7 @@ namespace Hit_Win_Service
                                                 IsMobileDevice = s.IsMobileDevice,
                                                 CreatedDate = s.CreatedDate,
                                                 clientName = objcl.UserName
-                                            }).ToList();
+                                            }).Take(1).ToList();
                         }
                         else
                         {
@@ -234,7 +235,7 @@ namespace Hit_Win_Service
                        catch (Exception ex)
                        {
 
-                           ErrorLogs.LogErrorData(ex.InnerException.ToString(), ex.Message);
+                           ErrorLogs.LogErrorData("from serivce call"+ex.InnerException.ToString(), ex.Message);
 
                        }
 
