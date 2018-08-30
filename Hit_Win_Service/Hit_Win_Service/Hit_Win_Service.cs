@@ -216,31 +216,66 @@ namespace Hit_Win_Service
                         //}
 
                         /////end
-
+                        
+                        //start
                         hitnotify hitobj = dc.hitnotifies.Where(x => x.FK_Rid == h.FK_Rid && x.FK_HookID == h.FK_HookId).Select(y => y).SingleOrDefault();
                         campaignhookurl camphookobj = dc.campaignhookurls.Where(x => x.PK_HookID == h.FK_HookId).Select(y => y).SingleOrDefault();
                         string hook_url = camphookobj.HookURL;
-                        string LastHitID = "0";
-                        try
+                        string data = JsonConvert.SerializeObject(List_analobj); ;
+
+                        WebRequest myReq = WebRequest.Create(hook_url);
+                        myReq.Method = "POST";
+                        myReq.ContentLength = data.Length;
+                        myReq.ContentType = "application/json; charset=UTF-8";
+
+                        //string usernamePassword = "YOUR API TOKEN HERE" + ":" + "x";
+
+                        UTF8Encoding enc = new UTF8Encoding();
+
+                        //myReq.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(enc.GetBytes(usernamePassword)));
+
+
+                        using (System.IO.Stream ds = myReq.GetRequestStream())
                         {
-                            using (WebClient wc = new WebClient())
-                            {
-                                var dataString = JsonConvert.SerializeObject(List_analobj);
-                                wc.Headers.Add(HttpRequestHeader.ContentType, "application/json");
-                                //string resp= wc.UploadString(new Uri("http://localhost:3000/Home/testpost"), "POST", dataString);
-                                string resp = wc.UploadString(new Uri(hook_url), "POST", dataString);
-                                ErrorLogs.LogErrorData(hook_url+resp, dataString);
-                                var json = JObject.Parse(resp);
-                                LastHitID = (string)json["LastHitId"];
-
-                            }
+                            ds.Write(enc.GetBytes(data), 0, data.Length);
                         }
-                        catch (Exception ex)
-                        {
 
-                            ErrorLogs.LogErrorData("from serivce call" + ex.StackTrace, ex.Message);
+                        string LastHitID="0";
+                        WebResponse wr = myReq.GetResponse();
+                        System.IO.Stream receiveStream = wr.GetResponseStream();
+                        System.IO.StreamReader reader = new System.IO.StreamReader(receiveStream, Encoding.UTF8);
+                        string content = reader.ReadToEnd();
+                        ErrorLogs.LogErrorData(content, data);
+                        //Response.Write(content);
 
-                        }
+                        //end
+
+
+
+                        //hitnotify hitobj = dc.hitnotifies.Where(x => x.FK_Rid == h.FK_Rid && x.FK_HookID == h.FK_HookId).Select(y => y).SingleOrDefault();
+                        //campaignhookurl camphookobj = dc.campaignhookurls.Where(x => x.PK_HookID == h.FK_HookId).Select(y => y).SingleOrDefault();
+                        //string hook_url = camphookobj.HookURL;
+                        //string LastHitID = "0";
+                        //try
+                        //{
+                        //    using (WebClient wc = new WebClient())
+                        //    {
+                        //        var dataString = JsonConvert.SerializeObject(List_analobj);
+                        //        wc.Headers.Add(HttpRequestHeader.ContentType, "application/json");
+                        //        //string resp= wc.UploadString(new Uri("http://localhost:3000/Home/testpost"), "POST", dataString);
+                        //        string resp = wc.UploadString(new Uri(hook_url), "POST", dataString);
+                        //        ErrorLogs.LogErrorData(hook_url+resp, dataString);
+                        //        var json = JObject.Parse(resp);
+                        //        LastHitID = (string)json["LastHitId"];
+
+                        //    }
+                        //}
+                        //catch (Exception ex)
+                        //{
+
+                        //    ErrorLogs.LogErrorData("from serivce call" + ex.StackTrace, ex.Message);
+
+                        //}
 
                             //CampaignHookurl = "http://localhost:3000/Home/testpost";
                             //wc.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
