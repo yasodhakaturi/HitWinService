@@ -234,22 +234,28 @@ namespace Hit_Win_Service
 
                         //myReq.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(enc.GetBytes(usernamePassword)));
 
-
+                        string LastHitID = "0";
+                        try
+                        {
                         using (System.IO.Stream ds = myReq.GetRequestStream())
                         {
                             ds.Write(enc.GetBytes(data), 0, data.Length);
                         }
 
-                        string LastHitID = "0";
+                        
                         WebResponse wr = myReq.GetResponse();
                         System.IO.Stream receiveStream = wr.GetResponseStream();
                         System.IO.StreamReader reader = new System.IO.StreamReader(receiveStream, Encoding.UTF8);
                         string content = reader.ReadToEnd();
-                        ErrorLogs.LogErrorData(content, data);
-
-
+                       
                         var json = JObject.Parse(content);
                         LastHitID = (string)json["LastHitId"];
+                        ErrorLogs.LogErrorData(LastHitID, data);
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorLogs.LogErrorData(ex.StackTrace, data);
+                        }
                         //Response.Write(content);
 
                         //end
