@@ -234,7 +234,7 @@ namespace Hit_Win_Service
                        catch (Exception ex)
                        {
 
-                           ErrorLogs.LogErrorData(ex.StackTrace, ex.Message);
+                           ErrorLogs.LogErrorData(ex.InnerException.ToString(), ex.Message);
 
                        }
 
@@ -288,7 +288,7 @@ namespace Hit_Win_Service
             catch (Exception ex)
             {
 
-                ErrorLogs.LogErrorData(ex.StackTrace, ex.Message);
+                ErrorLogs.LogErrorData(ex.InnerException.ToString(), ex.Message);
 
             }
         }
