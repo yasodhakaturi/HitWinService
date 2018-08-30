@@ -229,6 +229,7 @@ namespace Hit_Win_Service
                                 wc.Headers.Add(HttpRequestHeader.ContentType, "application/json");
                                 //string resp= wc.UploadString(new Uri("http://localhost:3000/Home/testpost"), "POST", dataString);
                                 string resp = wc.UploadString(new Uri(hook_url), "POST", dataString);
+                                ErrorLogs.LogErrorData(hook_url+resp, dataString);
                                 var json = JObject.Parse(resp);
                                 LastHitID = (string)json["LastHitId"];
 
