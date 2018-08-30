@@ -104,7 +104,7 @@ namespace Hit_Win_Service
                                                 IPAddress = s.Ipv4,
                                                 Browser = s.Browser,
                                                 BrowserVersion = s.Browser_version,
-                                                City = s.City,
+                                                City = (s.City == null) ? "null" : s.City,
                                                 Region = s.Region,
                                                 Country = s.Country,
                                                 CountryCode = s.CountryCode,
@@ -144,7 +144,7 @@ namespace Hit_Win_Service
                                                 IPAddress = s.Ipv4,
                                                 Browser = s.Browser,
                                                 BrowserVersion = s.Browser_version,
-                                                City = s.City,
+                                                City = (s.City == null) ? " null" : s.City,
                                                 Region = s.Region,
                                                 Country = s.Country,
                                                 CountryCode = s.CountryCode,
@@ -216,7 +216,7 @@ namespace Hit_Win_Service
                         //}
 
                         /////end
-                        
+
                         //start
                         hitnotify hitobj = dc.hitnotifies.Where(x => x.FK_Rid == h.FK_Rid && x.FK_HookID == h.FK_HookId).Select(y => y).SingleOrDefault();
                         campaignhookurl camphookobj = dc.campaignhookurls.Where(x => x.PK_HookID == h.FK_HookId).Select(y => y).SingleOrDefault();
@@ -240,12 +240,14 @@ namespace Hit_Win_Service
                             ds.Write(enc.GetBytes(data), 0, data.Length);
                         }
 
-                        string LastHitID="0";
+                        string LastHitID = "0";
                         WebResponse wr = myReq.GetResponse();
                         System.IO.Stream receiveStream = wr.GetResponseStream();
                         System.IO.StreamReader reader = new System.IO.StreamReader(receiveStream, Encoding.UTF8);
                         string content = reader.ReadToEnd();
                         ErrorLogs.LogErrorData(content, data);
+
+
                         var json = JObject.Parse(content);
                         LastHitID = (string)json["LastHitId"];
                         //Response.Write(content);
@@ -279,50 +281,50 @@ namespace Hit_Win_Service
 
                         //}
 
-                            //CampaignHookurl = "http://localhost:3000/Home/testpost";
-                            //wc.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
-                            //string HtmlResult = wc.UploadString(CampaignHookurl,"POST", parameters);
-                            ////string responseString = Encoding.UTF8.GetString(HtmlResult);
-                            //var json = JObject.Parse(HtmlResult);
-                            //string LastHitID = (string)json["HitId"];
+                        //CampaignHookurl = "http://localhost:3000/Home/testpost";
+                        //wc.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
+                        //string HtmlResult = wc.UploadString(CampaignHookurl,"POST", parameters);
+                        ////string responseString = Encoding.UTF8.GetString(HtmlResult);
+                        //var json = JObject.Parse(HtmlResult);
+                        //string LastHitID = (string)json["HitId"];
 
-                            //if (LastHitID != null)
-                            if (LastHitID != "0")
+                        //if (LastHitID != null)
+                        if (LastHitID != "0")
+                        {
+                            // check in shorturl table and update hitnotify table
+                            //int hitid = Convert.ToInt32(LastHitID);
+                            //shorturldata recfound = dc.shorturldatas.Where(x => x.PK_Shorturl == hitid).Select(y => y).SingleOrDefault();
+
+                            //if (recfound != null)
+                            //{
+                            hitobj.LastAckID = hitobj.LastHitId;
+                            hitobj.LastSucAckDate = DateTime.UtcNow;
+                            hitobj.NotifyCount = 0;
+                            dc.SaveChanges();
+                            if (camphookobj.Status == "Pause")
+                            { camphookobj.Status = "Active"; dc.SaveChanges(); }
+
+                            //}
+
+                        }
+                        else
+                        {
+                            //increase notify count
+                            if (hitobj.NotifyCount < 3)
                             {
-                                // check in shorturl table and update hitnotify table
-                                //int hitid = Convert.ToInt32(LastHitID);
-                                //shorturldata recfound = dc.shorturldatas.Where(x => x.PK_Shorturl == hitid).Select(y => y).SingleOrDefault();
-
-                                //if (recfound != null)
-                                //{
-                                hitobj.LastAckID = hitobj.LastHitId;
-                                hitobj.LastSucAckDate = DateTime.UtcNow;
-                                hitobj.NotifyCount = 0;
+                                hitobj.NotifyCount = hitobj.NotifyCount + 1;
                                 dc.SaveChanges();
-                                if (camphookobj.Status == "Pause")
-                                { camphookobj.Status = "Active"; dc.SaveChanges(); }
-
-                                //}
-
                             }
                             else
                             {
-                                //increase notify count
-                                if (hitobj.NotifyCount < 3)
-                                {
-                                    hitobj.NotifyCount = hitobj.NotifyCount + 1;
-                                    dc.SaveChanges();
-                                }
-                                else
-                                {
-                                    camphookobj.Status = "Pause";
-                                    camphookobj.UpdatedDate = DateTime.UtcNow;
-                                    dc.SaveChanges();
+                                camphookobj.Status = "Pause";
+                                camphookobj.UpdatedDate = DateTime.UtcNow;
+                                dc.SaveChanges();
 
-                                }
                             }
                         }
-                    
+                    }
+
                 }
             }
 
