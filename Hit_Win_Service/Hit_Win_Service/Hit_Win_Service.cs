@@ -87,7 +87,7 @@ namespace Hit_Win_Service
                                                       .AsNoTracking()
                                                       .AsEnumerable()
                                         join u in dc.uiddatas on s.FK_Uid equals u.PK_Uid
-                                        where ((s.FK_RID == h.FK_Rid) && (s.ACK == "0"))
+                                        where ((s.FK_RID == h.FK_Rid) && (s.ACK == "0" || s.ACK == null))
                                         orderby s.PK_Shorturl ascending
                                         select new AnalyticsData()
                                         {
