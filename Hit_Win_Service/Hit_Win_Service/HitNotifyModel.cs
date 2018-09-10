@@ -20,6 +20,7 @@ namespace Hit_Win_Service
             public DateTime? LastSucActDate { get; set; }
             public int? NotifyCount { get; set; }
             public int? FK_HookId { get; set; }
+            public DateTime? AckFailureTime { get; set; }
            
         }
     

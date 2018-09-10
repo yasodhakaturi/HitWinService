@@ -17,8 +17,8 @@ namespace Hit_Win_Service
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public riddata()
         {
-            this.shorturldatas = new HashSet<shorturldata>();
             this.uiddatas = new HashSet<uiddata>();
+            this.shorturldatas = new HashSet<shorturldata>();
         }
     
         public int PK_Rid { get; set; }
@@ -34,8 +34,8 @@ namespace Hit_Win_Service
     
         public virtual client client { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<shorturldata> shorturldatas { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<uiddata> uiddatas { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<shorturldata> shorturldatas { get; set; }
     }
 }

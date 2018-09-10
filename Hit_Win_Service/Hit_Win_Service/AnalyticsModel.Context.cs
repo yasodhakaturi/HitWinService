@@ -38,13 +38,13 @@ namespace Hit_Win_Service
         public virtual DbSet<loginhistory> loginhistories { get; set; }
         public virtual DbSet<master_location> master_location { get; set; }
         public virtual DbSet<riddata> riddatas { get; set; }
-        public virtual DbSet<shorturldata> shorturldatas { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<tmp_rownum_update> tmp_rownum_update { get; set; }
         public virtual DbSet<uiddata> uiddatas { get; set; }
         public virtual DbSet<city_locations_geolite2> city_locations_geolite2 { get; set; }
         public virtual DbSet<campaignhookurl> campaignhookurls { get; set; }
         public virtual DbSet<hitnotify> hitnotifies { get; set; }
+        public virtual DbSet<shorturldata> shorturldatas { get; set; }
     
         public virtual int InsertRIDData(string campaignName, string referencenumber, string pwd, Nullable<int> clientid)
         {

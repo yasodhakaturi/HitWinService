@@ -16,21 +16,21 @@
         <EntityTypeShape EntityType="shortenurlModel.loginhistory" Width="1.5" PointX="11.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="shortenurlModel.master_location" Width="1.5" PointX="2.75" PointY="12.75" IsExpanded="true" />
         <EntityTypeShape EntityType="shortenurlModel.riddata" Width="1.5" PointX="3" PointY="5.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="shortenurlModel.shorturldata" Width="1.5" PointX="5.25" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="shortenurlModel.sysdiagram" Width="1.5" PointX="12.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="shortenurlModel.tmp_rownum_update" Width="1.5" PointX="4.75" PointY="12.75" IsExpanded="true" />
         <EntityTypeShape EntityType="shortenurlModel.uiddata" Width="1.5" PointX="8.25" PointY="5.5" IsExpanded="true" />
         <EntityTypeShape EntityType="shortenurlModel.city_locations_geolite2" Width="1.5" PointX="12.75" PointY="6.75" IsExpanded="true" />
         <AssociationConnector Association="shortenurlModel.FK_RIDDATA_Client" ManuallyRouted="false" />
-        <AssociationConnector Association="shortenurlModel.FK_SHORTURLDATA_Client" ManuallyRouted="false" />
         <AssociationConnector Association="shortenurlModel.FK_UIDDATA_Client" ManuallyRouted="false" />
-        <AssociationConnector Association="shortenurlModel.FK_CookieTable_SHORTURLDATA" ManuallyRouted="false" />
-        <AssociationConnector Association="shortenurlModel.FK_SHORTURLDATA_RIDDATA" ManuallyRouted="false" />
         <AssociationConnector Association="shortenurlModel.FK_UIDDATA_RIDDATA" ManuallyRouted="false" />
-        <AssociationConnector Association="shortenurlModel.FK_SHORTURLDATA_UIDDATA" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="shortenurlModel.campaignhookurl" Width="1.5" PointX="7.375" PointY="14.125" />
-        <EntityTypeShape EntityType="shortenurlModel.hitnotify" Width="1.5" PointX="9.625" PointY="14" />
+        <EntityTypeShape EntityType="shortenurlModel.campaignhookurl" Width="1.5" PointX="7.375" PointY="14.25" />
+        <EntityTypeShape EntityType="shortenurlModel.hitnotify" Width="1.5" PointX="9.625" PointY="14.375" />
+        <EntityTypeShape EntityType="shortenurlModel.shorturldata" Width="1.5" PointX="15.5" PointY="3.625" />
         <AssociationConnector Association="shortenurlModel.hitnotify_ibfk_1" />
+        <AssociationConnector Association="shortenurlModel.FK_SHORTURLDATA_Client" />
+        <AssociationConnector Association="shortenurlModel.FK_CookieTable_SHORTURLDATA" />
+        <AssociationConnector Association="shortenurlModel.FK_SHORTURLDATA_RIDDATA" />
+        <AssociationConnector Association="shortenurlModel.FK_SHORTURLDATA_UIDDATA" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
