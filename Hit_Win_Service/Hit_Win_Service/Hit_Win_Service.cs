@@ -55,7 +55,7 @@ namespace Hit_Win_Service
                                                      .AsEnumerable()
                                                      join hit in dc.hitnotifies on c.PK_HookID equals hit.FK_HookID
                                                      //where c.Status == "Active" && (((hit.LastHitId - hit.LastAckID) > 0) || (hit.LastAckID == null))
-                                                     where c.Status == "Active"
+                                                     where c.Status == "Active" && c.HookURL !="" && c.HookURL != null
                                                      select new HookUrl()
                                                      {
                                                          CampaignName = c.CampaignName,
