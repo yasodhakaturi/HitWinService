@@ -52,8 +52,8 @@
     <Property Name="CreatedDate" Type="DateTime" />
     <Property Name="UpdatedDate" Type="DateTime" />
     <NavigationProperty Name="riddatas" Relationship="Self.FK_RIDDATA_Client" FromRole="client" ToRole="riddata" />
-    <NavigationProperty Name="shorturldatas" Relationship="Self.FK_SHORTURLDATA_Client" FromRole="client" ToRole="shorturldata" />
     <NavigationProperty Name="uiddatas" Relationship="Self.FK_UIDDATA_Client" FromRole="client" ToRole="uiddata" />
+    <NavigationProperty Name="shorturldatas" Relationship="shortenurlModel.FK_SHORTURLDATA_Client" FromRole="client" ToRole="shorturldata" />
   </EntityType>
   <EntityType Name="cookietable">
     <Key>
@@ -63,7 +63,7 @@
     <Property Name="CookieValue" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
     <Property Name="MobileNumber" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
     <Property Name="FK_ShorturlId" Type="Int32" />
-    <NavigationProperty Name="shorturldata" Relationship="Self.FK_CookieTable_SHORTURLDATA" FromRole="cookietable" ToRole="shorturldata" />
+    <NavigationProperty Name="shorturldata" Relationship="shortenurlModel.FK_CookieTable_SHORTURLDATA" FromRole="cookietable" ToRole="shorturldata" />
   </EntityType>
   <EntityType Name="errorlog">
     <Key>
@@ -147,46 +147,8 @@
     <Property Name="FK_ClientId" Type="Int32" Nullable="false" />
     <Property Name="CreatedBy" Type="Int32" />
     <NavigationProperty Name="client" Relationship="Self.FK_RIDDATA_Client" FromRole="riddata" ToRole="client" />
-    <NavigationProperty Name="shorturldatas" Relationship="Self.FK_SHORTURLDATA_RIDDATA" FromRole="riddata" ToRole="shorturldata" />
     <NavigationProperty Name="uiddatas" Relationship="Self.FK_UIDDATA_RIDDATA" FromRole="riddata" ToRole="uiddata" />
-  </EntityType>
-  <EntityType Name="shorturldata">
-    <Key>
-      <PropertyRef Name="PK_Shorturl" />
-    </Key>
-    <Property Name="PK_Shorturl" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Ipv4" Type="String" MaxLength="450" FixedLength="false" Unicode="false" />
-    <Property Name="Ipv6" Type="String" MaxLength="450" FixedLength="false" Unicode="false" />
-    <Property Name="ip_num" Type="Int64" />
-    <Property Name="Browser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Browser_version" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Region" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="CountryCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="PostalCode" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-    <Property Name="City_Latitude" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-    <Property Name="City_Longitude" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-    <Property Name="Latitude" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-    <Property Name="Longitude" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-    <Property Name="MetroCode" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-    <Property Name="Req_url" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-    <Property Name="UserAgent" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-    <Property Name="Hostname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="DeviceName" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-    <Property Name="DeviceBrand" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-    <Property Name="OS_Name" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-    <Property Name="OS_Version" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-    <Property Name="IsMobileDevice" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="CreatedDate" Type="DateTime" />
-    <Property Name="FK_Uid" Type="Int32" />
-    <Property Name="FK_RID" Type="Int32" />
-    <Property Name="FK_ClientID" Type="Int32" />
-    <Property Name="FK_City_Master_id" Type="Int32" />
-    <NavigationProperty Name="client" Relationship="Self.FK_SHORTURLDATA_Client" FromRole="shorturldata" ToRole="client" />
-    <NavigationProperty Name="cookietables" Relationship="Self.FK_CookieTable_SHORTURLDATA" FromRole="shorturldata" ToRole="cookietable" />
-    <NavigationProperty Name="riddata" Relationship="Self.FK_SHORTURLDATA_RIDDATA" FromRole="shorturldata" ToRole="riddata" />
-    <NavigationProperty Name="uiddata" Relationship="Self.FK_SHORTURLDATA_UIDDATA" FromRole="shorturldata" ToRole="uiddata" />
+    <NavigationProperty Name="shorturldatas" Relationship="shortenurlModel.FK_SHORTURLDATA_RIDDATA" FromRole="riddata" ToRole="shorturldata" />
   </EntityType>
   <EntityType Name="sysdiagram">
     <Key>
@@ -223,7 +185,7 @@
     <Property Name="FK_Batchid" Type="Int32" />
     <NavigationProperty Name="client" Relationship="Self.FK_UIDDATA_Client" FromRole="uiddata" ToRole="client" />
     <NavigationProperty Name="riddata" Relationship="Self.FK_UIDDATA_RIDDATA" FromRole="uiddata" ToRole="riddata" />
-    <NavigationProperty Name="shorturldatas" Relationship="Self.FK_SHORTURLDATA_UIDDATA" FromRole="uiddata" ToRole="shorturldata" />
+    <NavigationProperty Name="shorturldatas" Relationship="shortenurlModel.FK_SHORTURLDATA_UIDDATA" FromRole="uiddata" ToRole="shorturldata" />
   </EntityType>
   <EntityType Name="city_locations_geolite2">
     <Key>
@@ -256,18 +218,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_SHORTURLDATA_Client">
-    <End Role="client" Type="Self.client" Multiplicity="0..1" />
-    <End Role="shorturldata" Type="Self.shorturldata" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="client">
-        <PropertyRef Name="PK_ClientID" />
-      </Principal>
-      <Dependent Role="shorturldata">
-        <PropertyRef Name="FK_ClientID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_UIDDATA_Client">
     <End Role="client" Type="Self.client" Multiplicity="0..1" />
     <End Role="uiddata" Type="Self.uiddata" Multiplicity="*" />
@@ -277,30 +227,6 @@
       </Principal>
       <Dependent Role="uiddata">
         <PropertyRef Name="FK_ClientID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_CookieTable_SHORTURLDATA">
-    <End Role="shorturldata" Type="Self.shorturldata" Multiplicity="0..1" />
-    <End Role="cookietable" Type="Self.cookietable" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="shorturldata">
-        <PropertyRef Name="PK_Shorturl" />
-      </Principal>
-      <Dependent Role="cookietable">
-        <PropertyRef Name="FK_ShorturlId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SHORTURLDATA_RIDDATA">
-    <End Role="riddata" Type="Self.riddata" Multiplicity="0..1" />
-    <End Role="shorturldata" Type="Self.shorturldata" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="riddata">
-        <PropertyRef Name="PK_Rid" />
-      </Principal>
-      <Dependent Role="shorturldata">
-        <PropertyRef Name="FK_RID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -316,18 +242,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_SHORTURLDATA_UIDDATA">
-    <End Role="uiddata" Type="Self.uiddata" Multiplicity="0..1" />
-    <End Role="shorturldata" Type="Self.shorturldata" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="uiddata">
-        <PropertyRef Name="PK_Uid" />
-      </Principal>
-      <Dependent Role="shorturldata">
-        <PropertyRef Name="FK_Uid" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <EntityContainer Name="shortenurlEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="batchuploaddatas" EntityType="Self.batchuploaddata" />
     <EntitySet Name="city_blocks_ipv4_geolite2" EntityType="Self.city_blocks_ipv4_geolite2" />
@@ -340,7 +254,6 @@
     <EntitySet Name="loginhistories" EntityType="Self.loginhistory" />
     <EntitySet Name="master_location" EntityType="Self.master_location" />
     <EntitySet Name="riddatas" EntityType="Self.riddata" />
-    <EntitySet Name="shorturldatas" EntityType="Self.shorturldata" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
     <EntitySet Name="tmp_rownum_update" EntityType="Self.tmp_rownum_update" />
     <EntitySet Name="uiddatas" EntityType="Self.uiddata" />
@@ -349,29 +262,13 @@
       <End Role="client" EntitySet="clients" />
       <End Role="riddata" EntitySet="riddatas" />
     </AssociationSet>
-    <AssociationSet Name="FK_SHORTURLDATA_Client" Association="Self.FK_SHORTURLDATA_Client">
-      <End Role="client" EntitySet="clients" />
-      <End Role="shorturldata" EntitySet="shorturldatas" />
-    </AssociationSet>
     <AssociationSet Name="FK_UIDDATA_Client" Association="Self.FK_UIDDATA_Client">
       <End Role="client" EntitySet="clients" />
       <End Role="uiddata" EntitySet="uiddatas" />
     </AssociationSet>
-    <AssociationSet Name="FK_CookieTable_SHORTURLDATA" Association="Self.FK_CookieTable_SHORTURLDATA">
-      <End Role="shorturldata" EntitySet="shorturldatas" />
-      <End Role="cookietable" EntitySet="cookietables" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SHORTURLDATA_RIDDATA" Association="Self.FK_SHORTURLDATA_RIDDATA">
-      <End Role="riddata" EntitySet="riddatas" />
-      <End Role="shorturldata" EntitySet="shorturldatas" />
-    </AssociationSet>
     <AssociationSet Name="FK_UIDDATA_RIDDATA" Association="Self.FK_UIDDATA_RIDDATA">
       <End Role="riddata" EntitySet="riddatas" />
       <End Role="uiddata" EntitySet="uiddatas" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SHORTURLDATA_UIDDATA" Association="Self.FK_SHORTURLDATA_UIDDATA">
-      <End Role="uiddata" EntitySet="uiddatas" />
-      <End Role="shorturldata" EntitySet="shorturldatas" />
     </AssociationSet>
     <FunctionImport Name="InsertRIDData">
       <Parameter Name="CampaignName" Mode="In" Type="String" />
@@ -413,9 +310,26 @@
     </FunctionImport>
     <EntitySet Name="campaignhookurls" EntityType="shortenurlModel.campaignhookurl" />
     <EntitySet Name="hitnotifies" EntityType="shortenurlModel.hitnotify" />
+    <EntitySet Name="shorturldatas" EntityType="shortenurlModel.shorturldata" />
     <AssociationSet Name="hitnotify_ibfk_1" Association="shortenurlModel.hitnotify_ibfk_1">
       <End Role="campaignhookurl" EntitySet="campaignhookurls" />
       <End Role="hitnotify" EntitySet="hitnotifies" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SHORTURLDATA_Client" Association="shortenurlModel.FK_SHORTURLDATA_Client">
+      <End Role="client" EntitySet="clients" />
+      <End Role="shorturldata" EntitySet="shorturldatas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CookieTable_SHORTURLDATA" Association="shortenurlModel.FK_CookieTable_SHORTURLDATA">
+      <End Role="shorturldata" EntitySet="shorturldatas" />
+      <End Role="cookietable" EntitySet="cookietables" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SHORTURLDATA_RIDDATA" Association="shortenurlModel.FK_SHORTURLDATA_RIDDATA">
+      <End Role="riddata" EntitySet="riddatas" />
+      <End Role="shorturldata" EntitySet="shorturldatas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SHORTURLDATA_UIDDATA" Association="shortenurlModel.FK_SHORTURLDATA_UIDDATA">
+      <End Role="uiddata" EntitySet="uiddatas" />
+      <End Role="shorturldata" EntitySet="shorturldatas" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="campaignhookurl">
@@ -436,15 +350,52 @@
       <PropertyRef Name="PK_HitNotifi" />
     </Key>
     <Property Name="PK_HitNotifi" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="LastHitId" Type="Int32" />
-    <Property Name="LastAckID" Type="Int32" />
-    <Property Name="LastSuccHitDate" Type="DateTime" />
-    <Property Name="LastSucAckDate" Type="DateTime" />
     <Property Name="NotifyCount" Type="Int32" />
+    <Property Name="AckFailureTime" Type="DateTime" />
     <Property Name="FK_Rid" Type="Int32" />
     <Property Name="FK_ClientID" Type="Int32" />
     <Property Name="FK_HookID" Type="Int32" />
     <NavigationProperty Name="campaignhookurl" Relationship="shortenurlModel.hitnotify_ibfk_1" FromRole="hitnotify" ToRole="campaignhookurl" />
+  </EntityType>
+  <EntityType Name="shorturldata">
+    <Key>
+      <PropertyRef Name="PK_Shorturl" />
+    </Key>
+    <Property Name="PK_Shorturl" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Ipv4" Type="String" MaxLength="450" FixedLength="false" Unicode="false" />
+    <Property Name="Ipv6" Type="String" MaxLength="450" FixedLength="false" Unicode="false" />
+    <Property Name="ip_num" Type="Int64" />
+    <Property Name="Browser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Browser_version" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Region" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CountryCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="PostalCode" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+    <Property Name="City_Latitude" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+    <Property Name="City_Longitude" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+    <Property Name="Latitude" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+    <Property Name="Longitude" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+    <Property Name="MetroCode" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+    <Property Name="Req_url" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+    <Property Name="UserAgent" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+    <Property Name="Hostname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DeviceName" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+    <Property Name="DeviceBrand" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+    <Property Name="OS_Name" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+    <Property Name="OS_Version" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+    <Property Name="IsMobileDevice" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedDate" Type="DateTime" />
+    <Property Name="FK_Uid" Type="Int32" />
+    <Property Name="FK_RID" Type="Int32" />
+    <Property Name="FK_ClientID" Type="Int32" />
+    <Property Name="FK_City_Master_id" Type="Int32" />
+    <Property Name="ACK" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="ACKDATE" Type="DateTime" />
+    <NavigationProperty Name="client" Relationship="shortenurlModel.FK_SHORTURLDATA_Client" FromRole="shorturldata" ToRole="client" />
+    <NavigationProperty Name="cookietables" Relationship="shortenurlModel.FK_CookieTable_SHORTURLDATA" FromRole="shorturldata" ToRole="cookietable" />
+    <NavigationProperty Name="riddata" Relationship="shortenurlModel.FK_SHORTURLDATA_RIDDATA" FromRole="shorturldata" ToRole="riddata" />
+    <NavigationProperty Name="uiddata" Relationship="shortenurlModel.FK_SHORTURLDATA_UIDDATA" FromRole="shorturldata" ToRole="uiddata" />
   </EntityType>
   <Association Name="hitnotify_ibfk_1">
     <End Type="shortenurlModel.campaignhookurl" Role="campaignhookurl" Multiplicity="0..1" />
@@ -455,6 +406,54 @@
       </Principal>
       <Dependent Role="hitnotify">
         <PropertyRef Name="FK_HookID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SHORTURLDATA_Client">
+    <End Type="shortenurlModel.client" Role="client" Multiplicity="0..1" />
+    <End Type="shortenurlModel.shorturldata" Role="shorturldata" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="client">
+        <PropertyRef Name="PK_ClientID" />
+      </Principal>
+      <Dependent Role="shorturldata">
+        <PropertyRef Name="FK_ClientID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CookieTable_SHORTURLDATA">
+    <End Type="shortenurlModel.shorturldata" Role="shorturldata" Multiplicity="0..1" />
+    <End Type="shortenurlModel.cookietable" Role="cookietable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="shorturldata">
+        <PropertyRef Name="PK_Shorturl" />
+      </Principal>
+      <Dependent Role="cookietable">
+        <PropertyRef Name="FK_ShorturlId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SHORTURLDATA_RIDDATA">
+    <End Type="shortenurlModel.riddata" Role="riddata" Multiplicity="0..1" />
+    <End Type="shortenurlModel.shorturldata" Role="shorturldata" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="riddata">
+        <PropertyRef Name="PK_Rid" />
+      </Principal>
+      <Dependent Role="shorturldata">
+        <PropertyRef Name="FK_RID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SHORTURLDATA_UIDDATA">
+    <End Type="shortenurlModel.uiddata" Role="uiddata" Multiplicity="0..1" />
+    <End Type="shortenurlModel.shorturldata" Role="shorturldata" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="uiddata">
+        <PropertyRef Name="PK_Uid" />
+      </Principal>
+      <Dependent Role="shorturldata">
+        <PropertyRef Name="FK_Uid" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

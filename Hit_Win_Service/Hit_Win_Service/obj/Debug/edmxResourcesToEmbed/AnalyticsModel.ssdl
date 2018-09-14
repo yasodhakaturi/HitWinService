@@ -131,11 +131,8 @@ warning 6002: The table/view 'def.shortenurl.city_locations_geolite2' does not h
       <PropertyRef Name="PK_HitNotifi" />
     </Key>
     <Property Name="PK_HitNotifi" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="LastHitId" Type="int" />
-    <Property Name="LastAckID" Type="int" />
-    <Property Name="LastSuccHitDate" Type="datetime" Precision="6" />
-    <Property Name="LastSucAckDate" Type="datetime" Precision="6" />
     <Property Name="NotifyCount" Type="int" />
+    <Property Name="AckFailureTime" Type="datetime" Precision="6" />
     <Property Name="FK_Rid" Type="int" />
     <Property Name="FK_ClientID" Type="int" />
     <Property Name="FK_HookID" Type="int" />
@@ -223,6 +220,8 @@ warning 6002: The table/view 'def.shortenurl.city_locations_geolite2' does not h
     <Property Name="FK_RID" Type="int" />
     <Property Name="FK_ClientID" Type="int" />
     <Property Name="FK_City_Master_id" Type="int" />
+    <Property Name="ACK" Type="varchar" MaxLength="45" />
+    <Property Name="ACKDATE" Type="datetime" Precision="6" />
   </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>

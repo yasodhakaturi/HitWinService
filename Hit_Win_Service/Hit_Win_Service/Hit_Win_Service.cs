@@ -122,44 +122,46 @@ namespace Hit_Win_Service
                                             clientName = objcl.UserName
                                         }).ToList();
                         //.Take(1)
-
-                        if (List_analobj.Count > 0)
+                        if (List_analobj != null)
                         {
-                            hitnotify hitobj = dc.hitnotifies.Where(x => x.FK_Rid == h.FK_Rid && x.FK_HookID == h.FK_HookId).Select(y => y).SingleOrDefault();
-                            campaignhookurl camphookobj = dc.campaignhookurls.Where(x => x.PK_HookID == h.FK_HookId).Select(y => y).SingleOrDefault();
-
-                            if (h.AckFailureTime == null && h.NotifyCount == 0)
+                            if (List_analobj.Count > 0)
                             {
+                                hitnotify hitobj = dc.hitnotifies.Where(x => x.FK_Rid == h.FK_Rid && x.FK_HookID == h.FK_HookId).Select(y => y).SingleOrDefault();
+                                campaignhookurl camphookobj = dc.campaignhookurls.Where(x => x.PK_HookID == h.FK_HookId).Select(y => y).SingleOrDefault();
 
-                                WebHookCal(List_analobj, h, hitobj, camphookobj);
-
-                            }
-                            else if (hitobj.NotifyCount == 1)
-                            {
-
-                                TimeSpan time = new TimeSpan(0, 0, 60, 0);
-                                DateTime onehourtime = hitobj.AckFailureTime.Value.Add(time);
-                                DateTime? dt = DateTime.UtcNow;
-                                if (onehourtime == dt)
+                                if (h.AckFailureTime == null && h.NotifyCount == 0)
                                 {
-                                    WebHookCal(List_analobj, h, hitobj, camphookobj);
-                                }
-                            }
-                            else if (hitobj.NotifyCount == 2)
-                            {
 
-                                TimeSpan time = new TimeSpan(0, 4, 00, 0);
-                                DateTime onehourtime = hitobj.AckFailureTime.Value.Add(time);
-                                DateTime? dt = DateTime.UtcNow;
-                                if (onehourtime == dt)
+                                    WebHookCal(List_analobj, h, hitobj, camphookobj);
+
+                                }
+                                else if (hitobj.NotifyCount == 1)
                                 {
-                                    WebHookCal(List_analobj, h, hitobj, camphookobj);
+
+                                    TimeSpan time = new TimeSpan(0, 0, 60, 0);
+                                    DateTime onehourtime = hitobj.AckFailureTime.Value.Add(time);
+                                    DateTime? dt = DateTime.UtcNow;
+                                    if (onehourtime == dt)
+                                    {
+                                        WebHookCal(List_analobj, h, hitobj, camphookobj);
+                                    }
+                                }
+                                else if (hitobj.NotifyCount == 2)
+                                {
+
+                                    TimeSpan time = new TimeSpan(0, 4, 00, 0);
+                                    DateTime onehourtime = hitobj.AckFailureTime.Value.Add(time);
+                                    DateTime? dt = DateTime.UtcNow;
+                                    if (onehourtime == dt)
+                                    {
+                                        WebHookCal(List_analobj, h, hitobj, camphookobj);
+                                    }
+
+
+
                                 }
 
-
-
                             }
-
                         }
                     }
                 }
@@ -168,98 +170,103 @@ namespace Hit_Win_Service
             catch (Exception ex)
             {
 
-                ErrorLogs.LogErrorData(ex.InnerException.ToString(), ex.Message);
+                ErrorLogs.LogErrorData("Hit_Win_Service t 173"+ex.StackTrace.ToString(), ex.Message);
 
             }
         }
 
         public void WebHookCal(List<AnalyticsData> List_analobj, HookUrl h, hitnotify hitobj, campaignhookurl camphookobj)
         {
-
-            string hook_url = camphookobj.HookURL;
-            //hook_url = "https://google.com";
-            string data = JsonConvert.SerializeObject(List_analobj); ;
-            WebRequest myReq = WebRequest.Create(hook_url);
-            myReq.Method = "POST";
-            myReq.ContentLength = data.Length;
-            myReq.ContentType = "application/json; charset=UTF-8";
-
-
-            UTF8Encoding enc = new UTF8Encoding();
-
-
-            //string LastHitID = "0";
-            int[] hitids = new int[List_analobj.Count];
             try
             {
-                using (System.IO.Stream ds = myReq.GetRequestStream())
+                string hook_url = camphookobj.HookURL;
+                //hook_url = "https://google.com";
+                string data = JsonConvert.SerializeObject(List_analobj); ;
+                WebRequest myReq = WebRequest.Create(hook_url);
+                myReq.Method = "POST";
+                myReq.ContentLength = data.Length;
+                myReq.ContentType = "application/json; charset=UTF-8";
+
+
+                UTF8Encoding enc = new UTF8Encoding();
+
+
+                //string LastHitID = "0";
+                int[] hitids = new int[List_analobj.Count];
+                try
                 {
-                    ds.Write(enc.GetBytes(data), 0, data.Length);
+                    using (System.IO.Stream ds = myReq.GetRequestStream())
+                    {
+                        ds.Write(enc.GetBytes(data), 0, data.Length);
+                    }
+
+                    System.Web.Script.Serialization.JavaScriptSerializer js = new System.Web.Script.Serialization.JavaScriptSerializer();
+                    WebResponse wr = myReq.GetResponse();
+                    System.IO.Stream receiveStream = wr.GetResponseStream();
+                    System.IO.StreamReader reader = new System.IO.StreamReader(receiveStream, Encoding.UTF8);
+                    string content = reader.ReadToEnd();
+                    if (content != null)
+                    {
+                        List<hitidlist> valueSet = JsonConvert.DeserializeObject<List<hitidlist>>(content);
+                        hitids = valueSet.Select(x => x.hitid).ToArray();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ErrorLogs.LogErrorData("Hit_Win_Service at 215" + ex.StackTrace, ex.Message);
+                    hitids = null;
                 }
 
-                System.Web.Script.Serialization.JavaScriptSerializer js = new System.Web.Script.Serialization.JavaScriptSerializer();
-                WebResponse wr = myReq.GetResponse();
-                System.IO.Stream receiveStream = wr.GetResponseStream();
-                System.IO.StreamReader reader = new System.IO.StreamReader(receiveStream, Encoding.UTF8);
-                string content = reader.ReadToEnd();
-                if (content != null)
+                //end
+                if (hitids != null)
                 {
-                    List<hitidlist> valueSet = JsonConvert.DeserializeObject<List<hitidlist>>(content);
-                    hitids = valueSet.Select(x => x.hitid).ToArray();
+                    if (hitids.Count() > 0)
+                    {
+                        // check in shorturl table and update hitnotify table
+                        //int hitid = Convert.ToInt32(LastHitID);
+                        //shorturldata recfound = dc.shorturldatas.Where(x => x.PK_Shorturl == hitid).Select(y => y).SingleOrDefault();
+
+
+                        //hitobj.LastAckID = hitobj.LastHitId;
+                        // hitobj.LastSucAckDate = DateTime.UtcNow;
+                        if (hitobj.NotifyCount != 0)
+                        {
+                            hitobj.NotifyCount = 0;
+                            dc.SaveChanges();
+                        }
+                        if (camphookobj.Status == "Pause")
+                        {
+                            camphookobj.Status = "Active";
+                            dc.SaveChanges();
+                        }
+                        (from s in dc.shorturldatas
+                         where hitids.Contains(s.PK_Shorturl)
+                         select s).ToList().ForEach(x => { x.ACK = "1"; x.ACKDATE = DateTime.UtcNow; });
+                        dc.SaveChanges();
+
+
+                    }
+                }
+                else
+                {
+                    hitnotify hitobj1 = dc.hitnotifies.Where(x => x.FK_Rid == h.FK_Rid && x.FK_HookID == h.FK_HookId).Select(y => y).SingleOrDefault();
+                    campaignhookurl camphookobj1 = dc.campaignhookurls.Where(x => x.PK_HookID == h.FK_HookId).Select(y => y).SingleOrDefault();
+
+                    hitobj1.NotifyCount = hitobj.NotifyCount + 1;
+                    hitobj1.AckFailureTime = DateTime.UtcNow;
+                    dc.SaveChanges();
+                    if (hitobj.NotifyCount == 2)
+                    {
+                        camphookobj1.Status = "Pause";
+                        camphookobj1.UpdatedDate = DateTime.UtcNow;
+                        dc.SaveChanges();
+                    }
                 }
             }
             catch (Exception ex)
             {
-                ErrorLogs.LogErrorData(ex.StackTrace, data);
-                hitids = null;
+                ErrorLogs.LogErrorData("Hit_Win_Service at 268" + ex.StackTrace, ex.Message);
             }
-
-            //end
-            if (hitids != null)
-            {
-                if (hitids.Count() > 0)
-                {
-                    // check in shorturl table and update hitnotify table
-                    //int hitid = Convert.ToInt32(LastHitID);
-                    //shorturldata recfound = dc.shorturldatas.Where(x => x.PK_Shorturl == hitid).Select(y => y).SingleOrDefault();
-
-
-                    //hitobj.LastAckID = hitobj.LastHitId;
-                    // hitobj.LastSucAckDate = DateTime.UtcNow;
-                    if (hitobj.NotifyCount != 0)
-                    {
-                        hitobj.NotifyCount = 0;
-                        dc.SaveChanges();
-                    }
-                    if (camphookobj.Status == "Pause")
-                    {
-                        camphookobj.Status = "Active";
-                        dc.SaveChanges();
-                    }
-                    (from s in dc.shorturldatas
-                     where hitids.Contains(s.PK_Shorturl)
-                     select s).ToList().ForEach(x => { x.ACK = "1"; x.ACKDATE = DateTime.UtcNow; });
-                    dc.SaveChanges();
-
-
-                }
-            }
-            else
-            {
-                hitnotify hitobj1 = dc.hitnotifies.Where(x => x.FK_Rid == h.FK_Rid && x.FK_HookID == h.FK_HookId).Select(y => y).SingleOrDefault();
-                campaignhookurl camphookobj1 = dc.campaignhookurls.Where(x => x.PK_HookID == h.FK_HookId).Select(y => y).SingleOrDefault();
-
-                hitobj1.NotifyCount = hitobj.NotifyCount + 1;
-                hitobj1.AckFailureTime = DateTime.UtcNow;
-                dc.SaveChanges();
-                if (hitobj.NotifyCount == 2)
-                {
-                    camphookobj1.Status = "Pause";
-                    camphookobj1.UpdatedDate = DateTime.UtcNow;
-                    dc.SaveChanges();
-                }
-            }
-
 
         }
         public class hitidlist

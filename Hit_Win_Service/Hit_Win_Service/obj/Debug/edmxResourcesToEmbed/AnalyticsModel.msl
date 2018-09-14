@@ -155,41 +155,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="shorturldatas">
-      <EntityTypeMapping TypeName="shortenurlModel.shorturldata">
-        <MappingFragment StoreEntitySet="shorturldata">
-          <ScalarProperty Name="PK_Shorturl" ColumnName="PK_Shorturl" />
-          <ScalarProperty Name="Ipv4" ColumnName="Ipv4" />
-          <ScalarProperty Name="Ipv6" ColumnName="Ipv6" />
-          <ScalarProperty Name="ip_num" ColumnName="ip_num" />
-          <ScalarProperty Name="Browser" ColumnName="Browser" />
-          <ScalarProperty Name="Browser_version" ColumnName="Browser_version" />
-          <ScalarProperty Name="City" ColumnName="City" />
-          <ScalarProperty Name="Region" ColumnName="Region" />
-          <ScalarProperty Name="Country" ColumnName="Country" />
-          <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
-          <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
-          <ScalarProperty Name="City_Latitude" ColumnName="City_Latitude" />
-          <ScalarProperty Name="City_Longitude" ColumnName="City_Longitude" />
-          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
-          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
-          <ScalarProperty Name="MetroCode" ColumnName="MetroCode" />
-          <ScalarProperty Name="Req_url" ColumnName="Req_url" />
-          <ScalarProperty Name="UserAgent" ColumnName="UserAgent" />
-          <ScalarProperty Name="Hostname" ColumnName="Hostname" />
-          <ScalarProperty Name="DeviceName" ColumnName="DeviceName" />
-          <ScalarProperty Name="DeviceBrand" ColumnName="DeviceBrand" />
-          <ScalarProperty Name="OS_Name" ColumnName="OS_Name" />
-          <ScalarProperty Name="OS_Version" ColumnName="OS_Version" />
-          <ScalarProperty Name="IsMobileDevice" ColumnName="IsMobileDevice" />
-          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-          <ScalarProperty Name="FK_Uid" ColumnName="FK_Uid" />
-          <ScalarProperty Name="FK_RID" ColumnName="FK_RID" />
-          <ScalarProperty Name="FK_ClientID" ColumnName="FK_ClientID" />
-          <ScalarProperty Name="FK_City_Master_id" ColumnName="FK_City_Master_id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="sysdiagrams">
       <EntityTypeMapping TypeName="shortenurlModel.sysdiagram">
         <MappingFragment StoreEntitySet="sysdiagrams">
@@ -270,12 +235,46 @@
           <ScalarProperty Name="FK_HookID" ColumnName="FK_HookID" />
           <ScalarProperty Name="FK_ClientID" ColumnName="FK_ClientID" />
           <ScalarProperty Name="FK_Rid" ColumnName="FK_Rid" />
+          <ScalarProperty Name="AckFailureTime" ColumnName="AckFailureTime" />
           <ScalarProperty Name="NotifyCount" ColumnName="NotifyCount" />
-          <ScalarProperty Name="LastSucAckDate" ColumnName="LastSucAckDate" />
-          <ScalarProperty Name="LastSuccHitDate" ColumnName="LastSuccHitDate" />
-          <ScalarProperty Name="LastAckID" ColumnName="LastAckID" />
-          <ScalarProperty Name="LastHitId" ColumnName="LastHitId" />
           <ScalarProperty Name="PK_HitNotifi" ColumnName="PK_HitNotifi" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="shorturldatas">
+      <EntityTypeMapping TypeName="shortenurlModel.shorturldata">
+        <MappingFragment StoreEntitySet="shorturldata">
+          <ScalarProperty Name="ACKDATE" ColumnName="ACKDATE" />
+          <ScalarProperty Name="ACK" ColumnName="ACK" />
+          <ScalarProperty Name="FK_City_Master_id" ColumnName="FK_City_Master_id" />
+          <ScalarProperty Name="FK_ClientID" ColumnName="FK_ClientID" />
+          <ScalarProperty Name="FK_RID" ColumnName="FK_RID" />
+          <ScalarProperty Name="FK_Uid" ColumnName="FK_Uid" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="IsMobileDevice" ColumnName="IsMobileDevice" />
+          <ScalarProperty Name="OS_Version" ColumnName="OS_Version" />
+          <ScalarProperty Name="OS_Name" ColumnName="OS_Name" />
+          <ScalarProperty Name="DeviceBrand" ColumnName="DeviceBrand" />
+          <ScalarProperty Name="DeviceName" ColumnName="DeviceName" />
+          <ScalarProperty Name="Hostname" ColumnName="Hostname" />
+          <ScalarProperty Name="UserAgent" ColumnName="UserAgent" />
+          <ScalarProperty Name="Req_url" ColumnName="Req_url" />
+          <ScalarProperty Name="MetroCode" ColumnName="MetroCode" />
+          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+          <ScalarProperty Name="City_Longitude" ColumnName="City_Longitude" />
+          <ScalarProperty Name="City_Latitude" ColumnName="City_Latitude" />
+          <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+          <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="Region" ColumnName="Region" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Browser_version" ColumnName="Browser_version" />
+          <ScalarProperty Name="Browser" ColumnName="Browser" />
+          <ScalarProperty Name="ip_num" ColumnName="ip_num" />
+          <ScalarProperty Name="Ipv6" ColumnName="Ipv6" />
+          <ScalarProperty Name="Ipv4" ColumnName="Ipv4" />
+          <ScalarProperty Name="PK_Shorturl" ColumnName="PK_Shorturl" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
