@@ -126,8 +126,8 @@ namespace Hit_Win_Service
                         {
                             if (List_analobj.Count > 0)
                             {
-                                if (List_analobj.Count >= 50)
-                                List_analobj = List_analobj.OrderBy(x => x.CreatedDate).Take(49).ToList();
+                                if (List_analobj.Count >= 30)
+                                List_analobj = List_analobj.OrderBy(x => x.CreatedDate).Take(29).ToList();
                                 
                                 hitnotify hitobj = dc.hitnotifies.Where(x => x.FK_Rid == h.FK_Rid && x.FK_HookID == h.FK_HookId).Select(y => y).SingleOrDefault();
                                 campaignhookurl camphookobj = dc.campaignhookurls.Where(x => x.PK_HookID == h.FK_HookId).Select(y => y).SingleOrDefault();
