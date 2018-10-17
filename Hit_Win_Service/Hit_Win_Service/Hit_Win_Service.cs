@@ -216,7 +216,7 @@ namespace Hit_Win_Service
                 }
                 catch (Exception ex)
                 {
-                    ErrorLogs.LogErrorData("Hit_Win_Service at 215" + ex.StackTrace, ex.Message);
+                    ErrorLogs.LogErrorData("Hit_Win_Service at 215" +List_analobj.Count+ex.StackTrace, ex.Message);
                     hitids = null;
                 }
 
