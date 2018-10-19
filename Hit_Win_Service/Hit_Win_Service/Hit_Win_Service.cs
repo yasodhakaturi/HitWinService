@@ -83,47 +83,53 @@ namespace Hit_Win_Service
                         List<AnalyticsData> List_analobj = new List<AnalyticsData>();
                         //if (h.LastActId == null)
                         //{
-                        List_analobj = (from s in dc.shorturldatas
-                                                      .AsNoTracking()
-                                                      .AsEnumerable()
-                                        join u in dc.uiddatas on s.FK_Uid equals u.PK_Uid
-                                        where ((s.FK_RID == h.FK_Rid) && (s.ACK == "0" || s.ACK == null))
-                                        orderby s.PK_Shorturl ascending
-                                        select new AnalyticsData()
-                                        {
-                                            //authuser = objcl.Email,
-                                            //authpass = objcl.Password,
-                                            CampaignId = s.FK_RID,
-                                            ClientId = s.FK_ClientID,
-                                            HitId = s.PK_Shorturl,
-                                            ShorturlId = s.FK_Uid,
-                                            CampaignName = h.CampaignName,
-                                            Mobilenumber = u.MobileNumber,
-                                            ShortURL = s.Req_url,
-                                            LongUrl = u.LongurlorMessage,
-                                            GoogleMapUrl = "https://www.google.com/maps?q=loc:" + s.Latitude + "," + s.Longitude,
-                                            IPAddress = s.Ipv4,
-                                            Browser = s.Browser,
-                                            BrowserVersion = s.Browser_version,
-                                            City = (s.City == null) ? "null" : s.City,
-                                            Region = s.Region,
-                                            Country = s.Country,
-                                            CountryCode = s.CountryCode,
-                                            PostalCode = s.PostalCode,
-                                            Lattitude = s.Latitude,
-                                            Longitude = s.Longitude,
-                                            MetroCode = s.MetroCode,
-                                            DeviceName = s.DeviceName,
-                                            DeviceBrand = s.DeviceBrand,
-                                            OS_Name = s.OS_Name,
-                                            OS_Version = s.OS_Version,
-                                            IsMobileDevice = s.IsMobileDevice,
-                                            CreatedDate = s.CreatedDate,
-                                            clientName = objcl.UserName
-                                        }).ToList();
-                        //.Take(1)
-                        if (List_analobj != null)
+                        int shorturlcount = dc.shorturldatas.Where(x => x.FK_RID == h.FK_Rid && (x.ACK == "0" || x.ACK == null)).Count();
+                        if (shorturlcount != null && shorturlcount !=0)
                         {
+                            List_analobj = (from s in dc.shorturldatas
+                                                          .AsNoTracking()
+                                                          .AsEnumerable()
+                                            //join u in dc.uiddatas on s.FK_Uid equals u.PK_Uid
+                                            where ((s.FK_RID == h.FK_Rid) && (s.ACK == "0" || s.ACK == null))
+                                            orderby s.PK_Shorturl ascending
+                                            select new AnalyticsData()
+                                            {
+                                                //authuser = objcl.Email,
+                                                //authpass = objcl.Password,
+                                                CampaignId = s.FK_RID,
+                                                ClientId = s.FK_ClientID,
+                                                HitId = s.PK_Shorturl,
+                                                ShorturlId = s.FK_Uid,
+                                                CampaignName = h.CampaignName,
+                                                //Mobilenumber = u.MobileNumber,
+                                                ShortURL = s.Req_url,
+                                                //LongUrl = u.LongurlorMessage,
+                                                GoogleMapUrl = "https://www.google.com/maps?q=loc:" + s.Latitude + "," + s.Longitude,
+                                                IPAddress = s.Ipv4,
+                                                Browser = s.Browser,
+                                                BrowserVersion = s.Browser_version,
+                                                City = (s.City == null) ? "null" : s.City,
+                                                Region = s.Region,
+                                                Country = s.Country,
+                                                CountryCode = s.CountryCode,
+                                                PostalCode = s.PostalCode,
+                                                Lattitude = s.Latitude,
+                                                Longitude = s.Longitude,
+                                                MetroCode = s.MetroCode,
+                                                DeviceName = s.DeviceName,
+                                                DeviceBrand = s.DeviceBrand,
+                                                OS_Name = s.OS_Name,
+                                                OS_Version = s.OS_Version,
+                                                IsMobileDevice = s.IsMobileDevice,
+                                                CreatedDate = s.CreatedDate,
+                                                clientName = objcl.UserName
+                                            }).ToList();
+                            foreach (AnalyticsData a in List_analobj)
+                            {
+                                a.Mobilenumber = dc.uiddatas.Where(x => x.PK_Uid == a.ShorturlId).Select(y => y.MobileNumber).SingleOrDefault();
+                                a.LongUrl = dc.uiddatas.Where(x => x.PK_Uid == a.ShorturlId).Select(y => y.LongurlorMessage).SingleOrDefault();
+                            }
+                        
                             if (List_analobj.Count > 0)
                             {
                                 if (List_analobj.Count >= 25)
@@ -216,7 +222,7 @@ namespace Hit_Win_Service
                 }
                 catch (Exception ex)
                 {
-                    ErrorLogs.LogErrorData("Hit_Win_Service at 215" +List_analobj.Count+ex.StackTrace, ex.Message);
+                    ErrorLogs.LogErrorData("Hit_Win_Service at 215" +List_analobj[1]+ex.StackTrace, ex.Message);
                     hitids = null;
                 }
 
@@ -242,10 +248,19 @@ namespace Hit_Win_Service
                             camphookobj.Status = "Active";
                             dc.SaveChanges();
                         }
-                        (from s in dc.shorturldatas
-                         where hitids.Contains(s.PK_Shorturl)
-                         select s).ToList().ForEach(x => { x.ACK = "1"; x.ACKDATE = DateTime.UtcNow; });
+                        List<shorturldata> lstshorturl = (from s in dc.shorturldatas
+                                                          where hitids.Contains(s.PK_Shorturl)
+                                                          select s).ToList();
+                        foreach(shorturldata s in lstshorturl)
+                        {
+                            s.ACK = "1";
+                            s.ACKDATE = DateTime.UtcNow;
+                        }
                         dc.SaveChanges();
+                        //(from s in dc.shorturldatas
+                        // where hitids.Contains(s.PK_Shorturl)
+                        // select s).ToList().ForEach(x => { x.ACK = "1"; x.ACKDATE = DateTime.UtcNow; });
+                        //dc.SaveChanges();
 
 
                     }
