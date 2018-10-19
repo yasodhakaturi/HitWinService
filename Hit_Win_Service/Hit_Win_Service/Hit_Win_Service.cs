@@ -255,8 +255,9 @@ namespace Hit_Win_Service
                         {
                             s.ACK = "1";
                             s.ACKDATE = DateTime.UtcNow;
+                            dc.SaveChanges();
                         }
-                        dc.SaveChanges();
+                        //dc.SaveChanges();
                         //(from s in dc.shorturldatas
                         // where hitids.Contains(s.PK_Shorturl)
                         // select s).ToList().ForEach(x => { x.ACK = "1"; x.ACKDATE = DateTime.UtcNow; });
