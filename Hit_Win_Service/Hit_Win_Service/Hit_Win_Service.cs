@@ -248,9 +248,17 @@ namespace Hit_Win_Service
                             camphookobj.Status = "Active";
                             dc.SaveChanges();
                         }
-                        List<shorturldata> lstshorturl = (from s in dc.shorturldatas
-                                                          where hitids.Contains(s.PK_Shorturl)
-                                                          select s).ToList();
+                        List<shorturldata> lstshorturl = new List<shorturldata>();
+                        foreach (int hitid in hitids)
+                        {
+                            shorturldata shorturlobj = (from s in dc.shorturldatas
+                                                        where s.PK_Shorturl == hitid
+                                                        select s).SingleOrDefault();
+                            lstshorturl.Add(shorturlobj); 
+                        }
+                        //List<shorturldata> lstshorturl = (from s in dc.shorturldatas
+                        //                                  where hitids.Contains(s.PK_Shorturl)
+                        //                                  select s).ToList();
                         foreach(shorturldata s in lstshorturl)
                         {
                             s.ACK = "1";
