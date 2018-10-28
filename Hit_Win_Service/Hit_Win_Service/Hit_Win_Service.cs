@@ -83,7 +83,11 @@ namespace Hit_Win_Service
                         List<AnalyticsData> List_analobj = new List<AnalyticsData>();
                         //if (h.LastActId == null)
                         //{
-                        int shorturlcount = dc.shorturldatas.Where(x => x.FK_RID == h.FK_Rid && (x.ACK == "0" || x.ACK == null)).Count();
+                        //if(dc.shorturldatas.Any(x => x.FK_RID == h.FK_Rid && (x.ACK == "0" || x.ACK == null)))
+                        var checkvists = dc.shorturldatas.Where(x => x.FK_RID == h.FK_Rid && (x.ACK == "0" || x.ACK == null)).Select(y => y.PK_Shorturl).ToList();
+                        int shorturlcount =0;
+                        if(checkvists!=null)
+                            shorturlcount = checkvists.Count();
                         if (shorturlcount != null && shorturlcount !=0)
                         {
                             List_analobj = (from s in dc.shorturldatas
